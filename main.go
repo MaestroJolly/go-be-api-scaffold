@@ -16,7 +16,7 @@ func initRouter() *gin.Engine {
 		})
 	})
 
-	r.GET("/health", func(c *gin.Context) {
+	r.GET("/api/health", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "api is up and running...",
 		})
