@@ -7,8 +7,8 @@ import (
 )
 
 func HealthCheck() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
+	return func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{
 			"message": "api is up and running...",
 		})
 	}

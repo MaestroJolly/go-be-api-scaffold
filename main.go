@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
+	authHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/auth/handlers"
 	greetingsHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/greetings/handlers"
 	healthHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/health/handlers"
 )
@@ -14,12 +15,16 @@ func initRouter() *gin.Engine {
 	// handler functions
 	greetings := greetingsHandlers.Greetings()
 	healthCheck := healthHandlers.HealthCheck()
+	register := authHandlers.Register()
 
 	// public routes group
-	public := r.Group("/api")
+	public := r.Group("/auth")
 
 	r.GET("/", greetings)
-	public.GET("/health", healthCheck)
+	r.GET("/health", healthCheck)
+
+	// public routes
+	public.POST("/register", register)
 
 	return r
 }

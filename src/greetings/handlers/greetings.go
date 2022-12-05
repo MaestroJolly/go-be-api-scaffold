@@ -7,8 +7,8 @@ import (
 )
 
 func Greetings() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
+	return func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{
 			"greetings": "hello world, api is good to go...",
 		})
 	}
