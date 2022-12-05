@@ -15,9 +15,11 @@ func initRouter() *gin.Engine {
 	greetings := greetingsHandlers.Greetings()
 	healthCheck := healthHandlers.HealthCheck()
 
-	// routes
+	// public routes group
+	public := r.Group("/api")
+
 	r.GET("/", greetings)
-	r.GET("/api/health", healthCheck)
+	public.GET("/health", healthCheck)
 
 	return r
 }
