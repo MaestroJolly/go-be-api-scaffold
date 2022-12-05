@@ -3,7 +3,8 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 
-	"github.com/MaestroJolly/go-be-api-scaffold/src/greetings/handlers"
+	greetingsHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/greetings/handlers"
+	healthHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/health/handlers"
 )
 
 // Routes manager [Function to initiate routes]
@@ -11,8 +12,8 @@ func initRouter() *gin.Engine {
 	r := gin.Default()
 
 	// handler functions
-	greetings := handlers.Greetings()
-	healthCheck := handlers.HealthCheck()
+	greetings := greetingsHandlers.Greetings()
+	healthCheck := healthHandlers.HealthCheck()
 
 	// routes
 	r.GET("/", greetings)
