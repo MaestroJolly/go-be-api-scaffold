@@ -15,7 +15,10 @@ func initRouter() *gin.Engine {
 	// handler functions
 	greetings := greetingsHandlers.Greetings()
 	healthCheck := healthHandlers.HealthCheck()
+
+	// auth handler functions
 	register := authHandlers.Register()
+	login := authHandlers.Login()
 
 	// public routes group
 	public := r.Group("/auth")
@@ -25,6 +28,7 @@ func initRouter() *gin.Engine {
 
 	// public routes
 	public.POST("/register", register)
+	public.POST("/login", login)
 
 	return r
 }
