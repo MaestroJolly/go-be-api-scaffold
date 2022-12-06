@@ -15,6 +15,7 @@ import (
 
 var privateKey = []byte(os.Getenv("JWT_PRIVATE_KEY"))
 
+// function to generate the jwt token
 func GenerateJWT(user models.User) (string, error) {
 	tokenTTL, _ := strconv.Atoi(os.Getenv("TOKEN_TTL"))
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -26,6 +27,7 @@ func GenerateJWT(user models.User) (string, error) {
 	return token.SignedString(privateKey)
 }
 
+// function to validate the jwt token
 func ValidateJWT(context *gin.Context) error {
 	token, err := getToken(context)
 	if err != nil {
@@ -39,6 +41,7 @@ func ValidateJWT(context *gin.Context) error {
 
 }
 
+// function to get the token from the context
 func getToken(context *gin.Context) (*jwt.Token, error) {
 	tokenString, err := getTokenFromRequest(context)
 
@@ -56,6 +59,7 @@ func getToken(context *gin.Context) (*jwt.Token, error) {
 	return token, err
 }
 
+// function to get the token from request
 func getTokenFromRequest(context *gin.Context) (*string, error) {
 	bearerToken := context.Request.Header.Get("Authorization")
 	splitToken := strings.Split(bearerToken, " ")

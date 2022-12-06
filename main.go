@@ -1,7 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 
 	authHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/auth/handlers"
 	greetingsHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/greetings/handlers"
@@ -9,6 +12,14 @@ import (
 	"github.com/MaestroJolly/go-be-api-scaffold/src/middlewares"
 	userHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/users/handlers"
 )
+
+// function to initiate environment variables
+func initEnv() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+}
 
 // Routes manager [Function to initiate routes]
 func initRouter() *gin.Engine {
@@ -46,6 +57,7 @@ func initRouter() *gin.Engine {
 
 // Main function
 func main() {
-	r := initRouter()
-	r.Run(":8080")
+	initEnv()
+	router := initRouter()
+	router.Run(":8080")
 }
