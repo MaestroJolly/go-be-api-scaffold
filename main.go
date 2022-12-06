@@ -11,6 +11,8 @@ import (
 	healthHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/health/handlers"
 	"github.com/MaestroJolly/go-be-api-scaffold/src/middlewares"
 	userHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/users/handlers"
+
+	database "github.com/MaestroJolly/go-be-api-scaffold/src/db"
 )
 
 // function to initiate environment variables
@@ -58,6 +60,7 @@ func initRouter() *gin.Engine {
 // Main function
 func main() {
 	initEnv()
+	database.Connect()
 	router := initRouter()
 	router.Run(":8080")
 }
