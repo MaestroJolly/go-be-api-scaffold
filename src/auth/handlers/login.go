@@ -5,21 +5,16 @@ import (
 	"fmt"
 	"net/http"
 
+	helpers "github.com/MaestroJolly/go-be-api-scaffold/src/db/helpers"
 	"github.com/MaestroJolly/go-be-api-scaffold/src/db/models"
-	jwtGenerator "github.com/MaestroJolly/go-be-api-scaffold/src/helpers"
 	"github.com/gin-gonic/gin"
 )
 
 type UserLogin struct {
-	ID       string `json:"id"`
-	Email    string `json:"email" binding:"required"`
+	ID       uint   `json:"id"`
+	Email    string `json:"email"`
+	Username string `json:"username"`
 	Password string `json:"password" binding:"required"`
-}
-
-var dummyLoginData UserLogin = UserLogin{
-	ID:       "156337",
-	Email:    "example@example.com",
-	Password: "password",
 }
 
 func Login() gin.HandlerFunc {
@@ -34,19 +29,28 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		if data.Email != dummyLoginData.Email || data.Password != dummyLoginData.Password {
+		if data.Email == "" && data.Password == "" {
 			context.JSON(http.StatusBadRequest, gin.H{
-				"error": fmt.Sprintf("%v", errors.New("email or password is incorrect")),
+				"error": fmt.Sprintf("%v", errors.New("email or username cannot be empty")),
 			})
 			return
 		}
 
-		user := models.User{}
+		user, err := models.FindUserByUsername(data.Username)
 
-		user.ID = dummyLoginData.ID
-		user.Email = dummyLoginData.Email
+		if err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 
-		userJWT, err := jwtGenerator.GenerateJWT(user)
+		err = user.ValidatePassword(data.Username)
+
+		if err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		userJWT, err := helpers.GenerateJWT(user)
 
 		if err != nil {
 			fmt.Println(err)

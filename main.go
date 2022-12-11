@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	authHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/auth/handlers"
+	"github.com/MaestroJolly/go-be-api-scaffold/src/db/models"
 	greetingsHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/greetings/handlers"
 	healthHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/health/handlers"
 	"github.com/MaestroJolly/go-be-api-scaffold/src/middlewares"
@@ -29,6 +30,7 @@ func initEnv() {
 // function to initiate database connection
 func initDBConnection() {
 	database.Connect()
+	database.Database.AutoMigrate(&models.User{})
 }
 
 // Routes manager [Function to initiate routes]

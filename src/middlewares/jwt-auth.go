@@ -3,7 +3,7 @@ package middlewares
 import (
 	"net/http"
 
-	"github.com/MaestroJolly/go-be-api-scaffold/src/helpers"
+	helpers "github.com/MaestroJolly/go-be-api-scaffold/src/helpers"
 	"github.com/gin-gonic/gin"
 )
 
