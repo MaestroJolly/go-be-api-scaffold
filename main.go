@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -12,6 +14,7 @@ import (
 	"github.com/MaestroJolly/go-be-api-scaffold/src/middlewares"
 	userHandlers "github.com/MaestroJolly/go-be-api-scaffold/src/users/handlers"
 
+	"github.com/MaestroJolly/go-be-api-scaffold/src/constants"
 	database "github.com/MaestroJolly/go-be-api-scaffold/src/db"
 )
 
@@ -21,6 +24,11 @@ func initEnv() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+}
+
+// function to initiate database connection
+func initDBConnection() {
+	database.Connect()
 }
 
 // Routes manager [Function to initiate routes]
@@ -60,7 +68,13 @@ func initRouter() *gin.Engine {
 // Main function
 func main() {
 	initEnv()
-	database.Connect()
+	initDBConnection()
 	router := initRouter()
-	router.Run(":8080")
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = constants.DefaultPort
+	}
+
+	router.Run(fmt.Sprintf(":%s", port))
 }
