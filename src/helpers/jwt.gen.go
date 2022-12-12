@@ -14,7 +14,7 @@ var privateKey = []byte(os.Getenv("JWT_PRIVATE_KEY"))
 
 // function to validate the jwt token
 func ValidateJWT(context *gin.Context) error {
-	token, err := getToken(context)
+	token, err := GetToken(context)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func ValidateJWT(context *gin.Context) error {
 }
 
 // function to get the token from the context
-func getToken(context *gin.Context) (*jwt.Token, error) {
+func GetToken(context *gin.Context) (*jwt.Token, error) {
 	tokenString, err := getTokenFromRequest(context)
 
 	if err != nil {

@@ -29,21 +29,27 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		if data.Email == "" && data.Password == "" {
+		if data.Email == "" && data.Username == "" {
 			context.JSON(http.StatusBadRequest, gin.H{
 				"error": fmt.Sprintf("%v", errors.New("email or username cannot be empty")),
 			})
 			return
 		}
 
-		user, err := models.FindUserByUsername(data.Username)
+		username := data.Email
+
+		if username == "" {
+			username = data.Email
+		}
+
+		user, err := models.FindUserByUsernameOrEmail(username)
 
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
 
-		err = user.ValidatePassword(data.Username)
+		err = user.ValidatePassword(data.Password)
 
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
