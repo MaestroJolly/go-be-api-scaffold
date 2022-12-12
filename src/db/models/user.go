@@ -3,6 +3,7 @@ package models
 import (
 	"html"
 	"strings"
+	"time"
 
 	database "github.com/MaestroJolly/go-be-api-scaffold/src/db"
 	"github.com/MaestroJolly/go-be-api-scaffold/src/helpers"
@@ -11,12 +12,15 @@ import (
 )
 
 type User struct {
-	gorm.Model
-	Username  string `gorm:"size:255;not null;unique" json:"username"`
-	FirstName string `gorm:"size:255;not null;" json:"firstname"`
-	LastName  string `gorm:"size:255;not null;" json:"lastname"`
-	Email     string `gorm:"size:255;not null;unique" json:"email"`
-	Password  string `gorm:"size:255;not null;" json:"-"`
+	ID        uint           `gorm:"primarykey;autoIncrement" json:"id"`
+	Username  string         `gorm:"size:255;not null;unique" json:"username"`
+	FirstName string         `gorm:"size:255;not null;" json:"first_name"`
+	LastName  string         `gorm:"size:255;not null;" json:"last_name"`
+	Email     string         `gorm:"size:255;not null;unique" json:"email"`
+	Password  string         `gorm:"size:255;not null;" json:"-"`
+	CreatedAt time.Time      `gorm:"not null;" json:"created_at"`
+	UpdatedAt time.Time      `gorm:"not null;" json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
 }
 
 func (user *User) Save() (*User, error) {

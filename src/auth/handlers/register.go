@@ -9,7 +9,7 @@ import (
 )
 
 type UserRegistration struct {
-	UserName  string `json:"user_name" binding:"required"`
+	UserName  string `json:"username" binding:"required"`
 	FirstName string `json:"first_name" binding:"required"`
 	LastName  string `json:"last_name" binding:"required"`
 	Email     string `json:"email" binding:"required"`
