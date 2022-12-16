@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	authhelpers "github.com/MaestroJolly/go-be-api-scaffold/src/auth/helpers"
 	helpers "github.com/MaestroJolly/go-be-api-scaffold/src/db/helpers"
 	"github.com/MaestroJolly/go-be-api-scaffold/src/db/models"
 	"github.com/gin-gonic/gin"
@@ -36,7 +37,7 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
-		username := data.Email
+		username := data.Username
 
 		if username == "" {
 			username = data.Email
@@ -49,10 +50,15 @@ func Login() gin.HandlerFunc {
 			return
 		}
 
+		if user.Email == "" {
+			context.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+
 		err = user.ValidatePassword(data.Password)
 
 		if err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			context.JSON(http.StatusBadRequest, gin.H{"error": authhelpers.ErrorMessageNormalizer[err.Error()]})
 			return
 		}
 
@@ -67,7 +73,7 @@ func Login() gin.HandlerFunc {
 		}
 
 		context.JSON(http.StatusOK, gin.H{
-			"message": "login successful",
+			"message": "successfully logged in",
 			"data":    userJWT,
 		})
 	}
