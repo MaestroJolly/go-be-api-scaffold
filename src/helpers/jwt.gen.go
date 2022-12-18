@@ -53,3 +53,9 @@ func getTokenFromRequest(context *gin.Context) (*string, error) {
 	}
 	return nil, errors.New("Authentication required")
 }
+
+func GetUserIdFromToken(context *gin.Context) uint {
+	token, _ := GetToken(context)
+	claims, _ := token.Claims.(jwt.MapClaims)
+	return uint(claims["id"].(float64))
+}
