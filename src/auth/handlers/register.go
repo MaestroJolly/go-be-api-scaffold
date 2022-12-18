@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/MaestroJolly/go-be-api-scaffold/src/db/models"
 	"github.com/gin-gonic/gin"
@@ -30,7 +31,7 @@ func Register() gin.HandlerFunc {
 		}
 
 		user := models.User{
-			Username:  data.UserName,
+			Username:  strings.ReplaceAll(data.UserName, " ", ""),
 			FirstName: data.FirstName,
 			LastName:  data.LastName,
 			Email:     data.Email,

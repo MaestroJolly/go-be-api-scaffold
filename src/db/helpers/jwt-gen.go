@@ -25,6 +25,7 @@ func GenerateJWT(user models.User) (string, error) {
 	return token.SignedString(privateKey)
 }
 
+// function to get the user from the jwt token
 func CurrentUser(context *gin.Context) (models.User, error) {
 	err := helpers.ValidateJWT(context)
 	if err != nil {

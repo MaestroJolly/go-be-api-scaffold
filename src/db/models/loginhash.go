@@ -10,10 +10,11 @@ import (
 type LoginHash struct {
 	ID        uint           `gorm:"primarykey;autoIncrement" json:"id"`
 	Hash      *string        `gorm:"size:255;" json:"-"`
-	UserId    uint           `gorm:"size:255;not null;" json:"user_id"`
+	UserId    uint           `gorm:"size:255;not null;index" json:"user_id"`
 	CreatedAt time.Time      `gorm:"not null;" json:"created_at"`
 	UpdatedAt time.Time      `gorm:"not null;" json:"updated_at"`
 	DeletedAt gorm.DeletedAt `gorm:"index" json:"deleted_at"`
+	User      User
 }
 
 func (loginhash *LoginHash) Save() (*LoginHash, error) {
