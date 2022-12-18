@@ -6,6 +6,7 @@ import (
 
 	"github.com/MaestroJolly/go-be-api-scaffold/src/db/models"
 	"github.com/gin-gonic/gin"
+	guuid "github.com/google/uuid"
 )
 
 type UserRegistration struct {
@@ -37,6 +38,19 @@ func Register() gin.HandlerFunc {
 		}
 
 		savedUser, err := user.Save()
+
+		if err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		hash := guuid.New().String()
+		loginhash := models.LoginHash{
+			Hash:   &hash,
+			UserId: savedUser.ID,
+		}
+
+		_, err = loginhash.Save()
 
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

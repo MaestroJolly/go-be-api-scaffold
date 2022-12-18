@@ -31,6 +31,7 @@ func initEnv() {
 func initDBConnection() {
 	database.Connect()
 	database.Database.AutoMigrate(&models.User{})
+	database.Database.AutoMigrate(&models.LoginHash{})
 }
 
 // Routes manager [Function to initiate routes]
