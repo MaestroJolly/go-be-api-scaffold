@@ -45,6 +45,7 @@ func initRouter() *gin.Engine {
 	// auth handler functions
 	register := authHandlers.Register()
 	login := authHandlers.Login()
+	logout := authHandlers.Logout()
 
 	// user handler functions
 	user := userHandlers.AuthorizedUser()
@@ -58,6 +59,7 @@ func initRouter() *gin.Engine {
 	// public router
 	public.POST("/register", register)
 	public.POST("/login", login)
+	public.POST("/logout", logout)
 
 	// protected router group
 	protected := router.Group("/api")

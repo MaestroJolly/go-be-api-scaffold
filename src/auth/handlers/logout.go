@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
@@ -22,18 +23,14 @@ type LoginHash struct {
 func Logout() gin.HandlerFunc {
 	return func(context *gin.Context) {
 
-		_, err := helpers.CurrentUser(context)
+		user, err := helpers.CurrentUser(context)
 
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-
-		loginhash := models.LoginHash{
-			Hash: nil,
-		}
-
-		_, err = loginhash.Save()
+		fmt.Println(user.ID)
+		_, err = models.UpdateLoginHashByUserId(user.ID)
 
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

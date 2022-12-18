@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"time"
 
 	database "github.com/MaestroJolly/go-be-api-scaffold/src/db"
@@ -31,5 +32,15 @@ func FindLoginHashByUserId(id uint) (LoginHash, error) {
 	if err != nil {
 		return LoginHash{}, err
 	}
+	return loginhash, nil
+}
+
+func UpdateLoginHashByUserId(id uint) (LoginHash, error) {
+	var loginhash LoginHash
+	err := database.Database.Model(&loginhash).Where("user_id=?", id).Update("hash", nil).Error
+	if err != nil {
+		return LoginHash{}, err
+	}
+	fmt.Println("hdh", loginhash)
 	return loginhash, nil
 }
