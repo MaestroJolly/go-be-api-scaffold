@@ -56,7 +56,7 @@ func Login() gin.HandlerFunc {
 		}
 
 		err = user.ValidatePassword(data.Password)
-		fmt.Println(data.Password, data.Username, err.Error())
+
 		if err != nil {
 			context.JSON(http.StatusBadRequest, gin.H{"error": authhelpers.ErrorMessageNormalizer[err.Error()]})
 			return
