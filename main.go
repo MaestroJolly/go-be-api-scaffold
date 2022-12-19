@@ -36,7 +36,7 @@ func initDBConnection() {
 
 // Routes manager [Function to initiate routes]
 func initRouter() *gin.Engine {
-	router := gin.Default()
+	router := middlewares.RouteInitializer()
 
 	// handler functions
 	greetings := greetingsHandlers.Greetings()
